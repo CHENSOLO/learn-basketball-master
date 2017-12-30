@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">学打篮球</string>
+    <string name="title_home">篮球教学</string>
+    <string name="title_dashboard">经典专辑</string>
+    <string name="title_notifications">裁判教学</string>
+    <string name="BB">Basketball man</string>
+</resources>
