@@ -26,6 +26,7 @@ class MyAdapter2 extends BaseAdapter {
         this.mContext_two = mContext_two;
     }
 
+
     @Override
     public int getCount() {
         return mData.size();

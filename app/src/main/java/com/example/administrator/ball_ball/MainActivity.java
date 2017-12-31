@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     private OkHttpClient mOkHttpClient;
     private String ps_item = "";
+    private String ps_two_item = "";
+    private String ps_three_item = "";
     FragmentTransaction fragmentTransaction;
     private long exitTime = 0;
     private long firstTime;
@@ -50,23 +52,71 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             fragmentTransaction = fragmentManager.beginTransaction();
-
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    hideFragment(fragmentTransaction);
                     homeListFragment = new HomeListFragment(fragmentManager, ps_index_item);
                     fragmentTransaction.replace(R.id.content, homeListFragment);
                     fragmentTransaction.commit();
-                    return true;
+//                    if ( homeListFragment== null ){
+
+//                        homeListFragment = new HomeListFragment(fragmentManager, ps_index_item);
+//                    }
+//                    if ( !homeListFragment.isAdded() ){
+
+//                        fragmentTransaction.add(R.id.content,homeListFragment);
+//                    }else {
+//                        if ( videoListFragment!=null ){
+//                            fragmentTransaction.hide(videoListFragment);
+//                        }
+//                        fragmentTransaction.show(homeListFragment);
+//                    }
+//                    break;
+
+                  return true;
+
                 case R.id.navigation_dashboard:
+                    hideFragment(fragmentTransaction);
                     videoListFragment = new VideoListFragment(fragmentManager, ps_video_item);
                     fragmentTransaction.replace(R.id.content, videoListFragment);
                     fragmentTransaction.commit();
                     return true;
+
+//                    if ( videoListFragment == null ){
+//                        videoListFragment = new VideoListFragment(fragmentManager, ps_video_item);
+//
+//                    }
+//                    if ( !videoListFragment.isAdded() ){
+//                        fragmentTransaction.add(R.id.content,videoListFragment);
+//                    }else {
+//                        if (chenListFragment!=null){
+//                            fragmentTransaction.hide(chenListFragment);
+//                        }
+//                        fragmentTransaction.show(videoListFragment);
+//                    }
+//       break;
                 case R.id.navigation_notifications:
                     chenListFragment = new ChenListFragment(fragmentManager, ps_chen_item);
                     fragmentTransaction.replace(R.id.content, chenListFragment);
                     fragmentTransaction.commit();
                     return true;
+//                      if ( chenListFragment==null){
+//                          chenListFragment = new ChenListFragment(fragmentManager, ps_chen_item);
+//                      }
+//                      if ( !chenListFragment.isAdded() ){
+//                          fragmentTransaction.add(R.id.content,chenListFragment);
+//                      }else {
+//                          if ( homeListFragment!=null ){
+//                              fragmentTransaction.hide(homeListFragment);
+//                          }
+//                          fragmentTransaction.show(chenListFragment);
+//                      }
+//                      break;
+//
+//                      default:
+//                        break;
+//                    hideFragment(fragmentTransaction);
+
             }
             return false;
         }
@@ -74,10 +124,30 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+    /**
+     * 去掉隐藏所有的Fragment
+     * @param fragmentTransaction
+     */
+    private void hideFragment(FragmentTransaction fragmentTransaction) {
+        if ( homeListFragment!=null ){
+            fragmentTransaction.hide(homeListFragment);
+        }
+        if ( videoListFragment!=null){
+            fragmentTransaction.hide(videoListFragment);
+        }
+        if ( chenListFragment != null ) {
+
+            fragmentTransaction.hide(chenListFragment);
+        }
+
+    }
+
+
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -111,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     private void getAsynHttp(final String url) {
         mOkHttpClient = new OkHttpClient();
         Request.Builder requestBuilder = new Request.Builder().url("http://www.ccsolo.top/" + url);
-        Request request = requestBuilder.build();
+        final Request request = requestBuilder.build();
         Call mcall = mOkHttpClient.newCall(request);
         mcall.enqueue(new Callback() {
             @Override
@@ -121,7 +191,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 ps_item = response.body().string();
-
+//                ps_two_item =response.body().string();
+//                ps_three_item = response.body().string();
                 try {
                     JSONObject jsonObject1 = new JSONObject(ps_item);
                     JSONArray jsonArray = jsonObject1.getJSONArray("data");
@@ -149,20 +220,27 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+
     public void onBackPressed() {
         //1.点击的时间差如果大于2000，则提示用户点击两次退出
-        if ( System.currentTimeMillis() - exitTime > 2000 ) {
+        if ( System.currentTimeMillis() - exitTime < 2000 ) {
             //保存当前时间
-            exitTime = System.currentTimeMillis();
-            Toast.makeText(MainActivity.this, "连续按两次退出，连续按三次退出程序", Toast.LENGTH_SHORT)
+//            exitTime = System.currentTimeMillis();
+            Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT)
                     .show();
             //finish();
-        } else {exitTime = System.currentTimeMillis();
+        } else {
+            exitTime = System.currentTimeMillis();
             //点击时间小于2000，调用父类onBackPressed
             super.onBackPressed();
         }
+
     }
 
-
-
+//    @Override
+//    protected void onResume() {
+//        onCreate(null);
+//        super.onResume();
+//    }
 }
