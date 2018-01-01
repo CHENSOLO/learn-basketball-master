@@ -224,14 +224,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBackPressed() {
         //1.点击的时间差如果大于2000，则提示用户点击两次退出
-        if ( System.currentTimeMillis() - exitTime < 2000 ) {
+        if ( System.currentTimeMillis() - exitTime < 1000 ) {
             //保存当前时间
 //            exitTime = System.currentTimeMillis();
             Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT)
                     .show();
-            //finish();
+
         } else {
             exitTime = System.currentTimeMillis();
+
             //点击时间小于2000，调用父类onBackPressed
             super.onBackPressed();
         }
