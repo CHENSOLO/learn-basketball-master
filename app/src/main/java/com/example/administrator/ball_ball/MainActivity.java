@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -35,13 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     private OkHttpClient mOkHttpClient;
     private String ps_item = "";
-    private String ps_two_item = "";
-    private String ps_three_item = "";
     FragmentTransaction fragmentTransaction;
     private long exitTime = 0;
     private long firstTime;
-    Toolbar toolbar;
-    TextView toolbarTv;
+
 
 
     private Toast mTextMessage;

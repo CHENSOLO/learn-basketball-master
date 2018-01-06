@@ -35,7 +35,7 @@ public class Video_play extends AppCompatActivity {
 
 
         //隐藏状态栏
-        getSupportActionBar().hide();
+       // getSupportActionBar().hide();
         //定义全屏参数
         int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         //获得当前窗体对象
